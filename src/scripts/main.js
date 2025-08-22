@@ -358,46 +358,52 @@ const people = [
 console.log(Object.keys(people[0])); // you can remove it
 
 function table(arrPeople) {
-  const arr = Object.keys(people[0]);
+  const dashboardTable = document.querySelector('table.dashboard');
   const currentYear = new Date().getFullYear();
 
-  for (const piple of arrPeople) {
+  for (const person of arrPeople) {
     const row = document.createElement('tr');
-    const tb = document.querySelector('table');
-    let i = 0;
 
-    while (i < 6) {
-      const cell = document.createElement('td');
+    const tdName = document.createElement('td');
 
-      if (i >= 4) {
-        if (i === 4) {
-          if (piple.died) {
-            cell.textContent = piple.died - piple.born;
-            row.appendChild(cell);
-          } else {
-            cell.textContent = currentYear - piple.born;
-            row.appendChild(cell);
-          }
-        } else {
-          cell.textContent = Math.ceil(piple.died / 100);
-          row.appendChild(cell);
-        }
-      } else {
-        if (piple[arr[i]] === 'm') {
-          cell.textContent = 'Male';
-          row.appendChild(cell);
-        } else if (piple[arr[i]] === 'f') {
-          cell.textContent = 'Female';
-          row.appendChild(cell);
-        } else {
-          cell.textContent = piple[arr[i]];
-          row.appendChild(cell);
-        }
-      }
-      i++;
+    tdName.textContent = person.name;
+    row.appendChild(tdName);
+
+    const tdGender = document.createElement('td');
+
+    if (person.sex === 'm') {
+      tdGender.textContent = 'Male';
+      row.appendChild(tdGender);
+    } else if (person.sex === 'f') {
+      tdGender.textContent = 'Female';
+      row.appendChild(tdGender);
     }
 
-    tb.appendChild(row);
+    const tdBorn = document.createElement('td');
+
+    tdBorn.textContent = person.born;
+    row.appendChild(tdBorn);
+
+    const tdDied = document.createElement('td');
+
+    tdDied.textContent = person.died ?? '';
+    row.appendChild(tdDied);
+
+    const tdAge = document.createElement('td');
+
+    if (person.died === undefined) {
+      tdAge.textContent = currentYear - person.born;
+    } else {
+      tdAge.textContent = person.died - person.born;
+    }
+    row.appendChild(tdAge);
+
+    const tdCentury = document.createElement('td');
+
+    tdCentury.textContent = person.died ? Math.ceil(person.died / 100) : '';
+    row.appendChild(tdCentury);
+
+    dashboardTable.appendChild(row);
   }
 }
 
