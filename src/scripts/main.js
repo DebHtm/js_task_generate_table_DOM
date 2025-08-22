@@ -355,6 +355,50 @@ const people = [
 ];
 
 // eslint-disable-next-line no-console
-console.log(people); // you can remove it
+console.log(Object.keys(people[0])); // you can remove it
 
-// write your code here
+function table(arrPeople) {
+  const arr = Object.keys(people[0]);
+  const currentYear = new Date().getFullYear();
+
+  for (const piple of arrPeople) {
+    const row = document.createElement('tr');
+    const tb = document.querySelector('table');
+    let i = 0;
+
+    while (i < 6) {
+      const cell = document.createElement('td');
+
+      if (i >= 4) {
+        if (i === 4) {
+          if (piple.died) {
+            cell.textContent = piple.died - piple.born;
+            row.appendChild(cell);
+          } else {
+            cell.textContent = currentYear - piple.born;
+            row.appendChild(cell);
+          }
+        } else {
+          cell.textContent = Math.ceil(piple.died / 100);
+          row.appendChild(cell);
+        }
+      } else {
+        if (piple[arr[i]] === 'm') {
+          cell.textContent = 'Male';
+          row.appendChild(cell);
+        } else if (piple[arr[i]] === 'f') {
+          cell.textContent = 'Female';
+          row.appendChild(cell);
+        } else {
+          cell.textContent = piple[arr[i]];
+          row.appendChild(cell);
+        }
+      }
+      i++;
+    }
+
+    tb.appendChild(row);
+  }
+}
+
+table(people);
